@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="title">
+    Welcome, {{ username }}!
+</h1>
+ 
+<div>
+    <div class="title is-2" style="font-size: 40px;">There is a dashboard of problems in WAF</div>
+    <div  style="background-color: #272c36; padding: 10px; border-radius: 10px;">
+     
+        
+        <div class="problems" style="background-color: white; padding: 10px; margin: 5px; border-radius: 5px;">
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th><button class="figna" class="sort-button"   data-column="0" data-numeric="true">ID</button></th>
+                        <th><button class="figna" class="sort-button"   data-column="1" data-numeric="true">Attack</button></th>
+                        <th><button class="figna" class="sort-button"   data-column="2" data-numeric="true">Date</button></th>
+                        <th><button class="figna" class="sort-button"   data-column="3" data-numeric="true">IP</button></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in attacks %}
+                        <tr>
+                            <td>{{ row[0] }}</td>
+                            <td>{{ row[1] }}</td>
+                            <td>{{ row[2] }}</td>
+                            <td>{{ row[3] }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            
+        </div>
+        
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Vulnerable Website Example</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css" />
+</head>
+<style>
+    .navbar-default .navbar-nav li a:hover, 
+ .navbar-default .navbar-nav > .active > a:hover {
+     background-color: initial;
+ }
+
+
+ .figna {
+        font-size:large;
+        display: inline-block;
+        padding: 5px 10px; /* Adjust the padding as needed for your design */
+        margin: 5px;
+        cursor: pointer;
+        background-color: white;
+        color: #272c36;
+        border: none;
+        border-radius: 5px;
+ }
+ .problems {
+        background-color: white;
+        padding: 10px;
+        margin: 5px;
+        border-radius: 5px;
+        overflow-y: auto;
+        max-height: 800px; 
+    }
+
+    table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 10px; /* Adjust the spacing as needed */
+    }
+
+    th, td {
+        padding: 10px; /* Adjust the padding as needed */
+        border: 1px solid #272c36; /* Add borders for better visibility */
+    }
+</style>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+
+
+
+<body>
+<section class="hero is-fullheight" style="background-color:#a77c98;">
+
+    <div class="hero-head">
+        <nav class="navbar"  style="background-color: #272c36;">
+            <div class="container" >
+
+                <div id="navbarMenuHeroA" class="navbar-menu" style="display: flex; flex-grow: 1; justify-content: flex-end; background-color: #272c36; display: flex; ">
+                    <div class="navbar-end" >
+                        <a href="{{ url_for('index') }}" class="navbar-item" style="color: #fff5c9; font-size: 20px; background-color: transparent !important; ">
+                            Home
+                        </a>
+
+
+                        
+<!--                         
+                        <a href="" class="navbar-item"  style="color: #66666e; font-size: 20px;  ">
+                            Profile
+                        </a> -->
+                        {% if not session.name %}
+                        <a href="{{ url_for('get_login') }}" class="navbar-item"  style="color: #fff5c9; font-size: 20px; background-color: transparent !important;">
+                            Login
+                        </a>
+                        {% endif %}
+
+                        <!-- <a href="" class="navbar-item"  style="color: #66666e; font-size: 20px;  ">
+                            Sign Up
+                        </a> -->
+                        {% if session.name %}
+                        <a href="{{ url_for('home') }}" class="navbar-item" style="color: #fff5c9; font-size: 20px; background-color: transparent !important; ">
+                            My Account
+                        </a>
+
+                        <a href="{{ url_for('logout') }}" class="navbar-item"  style="color: #fff5c9; font-size: 20px;  background-color: transparent !important;">
+                            Logout
+                        </a>
+                        
+                        {% endif %}
+
+                        
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <div class="hero-body">
+        <div class="container has-text-centered">
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+</section>
+</body>
+<script>
+    // Function to sort the table by a specific column
+    function sortTable(columnIndex) {
+        var table, rows, switching, i, x, y, shouldSwitch;
+        table = document.querySelector("table");
+        switching = true;
+
+        while (switching) {
+            switching = false;
+            rows = table.rows;
+
+            for (i = 1; i < (rows.length - 1); i++) {
+                shouldSwitch = false;
+                x = rows[i].getElementsByTagName("td")[columnIndex];
+                y = rows[i + 1].getElementsByTagName("td")[columnIndex];
+
+                // Check if the two rows should switch places
+                if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                    shouldSwitch = true;
+                    break;
+                }
+            }
+
+            if (shouldSwitch) {
+                // Swap the rows and mark that a switch has been made
+                rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                switching = true;
+            }
+        }
+    }
+
+    // Function to create buttons for each table header
+    function createSortButtons() {
+        var headers = document.querySelectorAll("th");
+
+        headers.forEach(function (header, index) {
+            var button = document.createElement("button");
+            button.innerHTML = "Sort";
+            button.addEventListener("click", function () {
+                sortTable(index);
+            });
+
+            header.appendChild(button);
+        });
+    }
+
+    // Call the function to create sort buttons when the document is loaded
+    document.addEventListener("DOMContentLoaded", function () {
+        createSortButtons();
+    });
+</script>
+</html>
